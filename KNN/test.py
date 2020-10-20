@@ -31,7 +31,7 @@ colors2 = '#DC143C'
 # 展示点图
 plt.scatter(group[:,0],group[:,1], c=colors1,label='test')
 
-plt.plot([0,9.5],[9.5,0],linewidth = '0.5',color='#000000')
+plt.plot([0,100],[0,100],linewidth = '0.5',color='#000000')   #划线
 plt.legend()
 plt.show()
 print(group)
