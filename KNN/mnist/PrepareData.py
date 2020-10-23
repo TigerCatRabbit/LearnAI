@@ -1,7 +1,8 @@
 
 import numpy as np
 import struct#处理二进制文件
-
+from PIL import Image   #数组转存成图片
+import matplotlib
 
 #将图片信息从idx3-ubyte文件中解析出来，将标签信息从idx1-ubyte文件中解析出来，其中idx3的3代表是三维，idx1的1代表是一维
 # 训练集文件
@@ -151,8 +152,13 @@ def run():
     train_labels = load_train_labels()
     test_images,test_nums = load_test_images()
     test_labels = load_test_labels()
+    print(type(train_images))
+    print(train_images[0])
+    # Image.fromarray(train_images[0]).save('train_images[0].jpg')
+    imageName='train_images[0].jpg'
+    matplotlib.image.imsave(imageName,train_images[0])
 
-    return train_images,train_labels,test_images,test_labels,train_nums,test_nums
+    # return train_images,train_labels,test_images,test_labels,train_nums,test_nums
 
-if __name__ == '__main__':
+if __name__ == '__main__': #避免引入的文件中的未被封装的语句被执行  
     run()
