@@ -1,4 +1,4 @@
-
+from PIL import Image
 import numpy as np
 import struct#处理二进制文件
 from PIL import Image   #数组转存成图片
@@ -58,7 +58,7 @@ def decode_idx1_ubyte(idx1_ubyte_file):
     offset = 0
     fmt_header = '>ii'
     _, num_images = struct.unpack_from(fmt_header, bin_data, offset)
-    print('图片数量: %d张' % (num_images))
+    # print('图片数量: %d张' % (num_images))
 
     # 解析数据集
     offset += struct.calcsize(fmt_header)
@@ -148,16 +148,33 @@ def load_test_labels(idx_ubyte_file=test_labels_idx1_ubyte_file):
 
 
 def run():
-    train_images,train_nums = load_train_images()
+    train_images,train_nums = load_train_images()   # ndarray   int 
     train_labels = load_train_labels()
     test_images,test_nums = load_test_images()
     test_labels = load_test_labels()
-    print(type(train_images))
-    print(train_images[0])
-    # Image.fromarray(train_images[0]).save('train_images[0].jpg')
-    imageName='train_images[0].jpg'
-    matplotlib.image.imsave(imageName,train_images[0])
+    # convert ndarray to images
+    for i in range(len(train_images)):   #train set
+        imgPath='train_images/'+str(i) +'.jpg'
+        img=Image.fromarray(train_images[i])
+        # print(img)
+        img = img.convert('RGB')
+        img.save(imgPath)
+        print("\r转换进度：%.2f%%" %(float(i/ len(train_images))),end=' ') 
+    print('\n')
+    for k in range(len(test_images)):   # test set
+        imgPath='test_images/'+str(k) +'.jpg'
+        img=Image.fromarray(test_images[k])
+        # print(img)
+        img = img.convert('RGB')
+        img.save(imgPath)
+        print("\r转换进度：%.2f%%" %(float(k/ len(test_images))),end=' ') 
 
+    # print(type(train_images))   
+    # print(train_images[0])
+    # Image.fromarray(train_images[0]).save('train_images[0].jpg')
+    # matplotlib.image.imsave(imageName,train_images[0])
+    
+    
     # return train_images,train_labels,test_images,test_labels,train_nums,test_nums
 
 if __name__ == '__main__': #避免引入的文件中的未被封装的语句被执行  
